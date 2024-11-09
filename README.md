@@ -1,7 +1,5 @@
 Esse código implementa uma função `get_next_line`, que tem como objetivo ler e retornar uma linha de um arquivo ou de uma entrada (input) a partir de um descritor de arquivo, ou seja, ele vai "pegar" uma linha de cada vez de um arquivo ou fluxo de dados.
 
-Vamos entender as funções e como elas trabalham juntas:
-
 ### 1. Função `ft_read_line`
 
 Essa função é responsável por ler dados do arquivo até encontrar uma nova linha (`\n`) ou até atingir o fim do arquivo.
