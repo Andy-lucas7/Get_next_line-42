@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lserrao- <lserrao-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 03:55:58 by lserrao-          #+#    #+#             */
-/*   Updated: 2024/11/11 23:21:16 by lserrao-         ###   ########.fr       */
+/*   Created: 2024/11/10 18:39:40 by lserrao-          #+#    #+#             */
+/*   Updated: 2024/11/11 16:03:43 by lserrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read_line(int fd, char *line)
 {
@@ -93,45 +93,50 @@ char	*ft_get_next_line(char *line)
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*line[OPEN_MAX];
 	char		*result_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_read_line(fd, line);
-	if (!line)
+	line[fd] = ft_read_line(fd, line[fd]);
+	if (!line[fd])
 	{
-		free(line);
+		free(line[fd]);
 		return (NULL);
 	}
-	result_line = ft_get_next_line(line);
+	result_line = ft_get_next_line(line[fd]);
 	if (!result_line)
 	{
-		free (line);
-		line = NULL;
+		free (line[fd]);
+		line[fd] = NULL;
 		return (NULL);
 	}
-	line = new_line(line);
+	line[fd] = new_line(line[fd]);
 	return (result_line);
 }
 
-// int	main(int argc, char **argv)
+// int	main(void)
 // {
-// 	int	fd;
+// 	int		i;
+// 	int		fd = open("test.txt", O_RDWR);
+// 	int		fd2 = open("test2.txt", O_RDWR);
+// 	int		fd3 = open("test3.txt", O_RDWR);
+// 	int		fd4 = open("test4.txt", O_RDWR);
 
-// 	if (argc < 2)
-// 		fd = 0;
-// 	else
-// 		fd = open(argv[1], O_RDONLY);
-// 	char	*ptr = get_next_line(fd);
-// 	printf("%s", ptr);
-// 	free(ptr);
-// 	ptr = get_next_line(fd);
-// 	printf("%s", ptr);
-// 	free(ptr);
-// 	ptr = get_next_line(fd);
-// 	printf("%s", ptr);
+// 	i = 1;
+// 	if (fd == -1)
+// 		return (1);
+// 	while (i < 10)
+// 	{
+// 		printf("%s", get_next_line(fd));
+// 		printf("%s", get_next_line(fd2));
+// 		printf("%s", get_next_line(fd3));
+// 		printf("%s", get_next_line(fd4));
+// 		i++;
+// 	}
 // 	close(fd);
-// 	ptr = get_next_line(-1);
+// 	close(fd2);
+// 	close(fd3);
+// 	close(fd4);
 // 	return (0);
 // }
